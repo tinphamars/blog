@@ -7,6 +7,5 @@ const authController = require("../controllers/authController");
 route.get("/", authController.index);
 route.post("/", authController.submit);
 
-
 module.exports = route;
 

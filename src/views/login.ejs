@@ -4,16 +4,15 @@
 <body>
   <div class="container-login">
     <div class="form-login p-3 bg-white rounded-3">
-    
       <form action="login" method="post">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="mb-3">
           <label for="exampleInputTextUsername" class="form-label">Email</label>
-          <input type="text" name="username" class="form-control" id="exampleInputTextUsername" aria-describedby="textHelp">
+          <input type="email" name="username" class="form-control" id="exampleInputTextUsername" aria-describedby="textHelp">
         </div>
         <div class="mb-3">
           <label for="exampleInputTextPassword" class="form-label">Password</label>
-          <input type="text" name="password" class="form-control" id="exampleInputTextPassword" aria-describedby="textHelp">
+          <input type="password" name="password" class="form-control" id="exampleInputTextPassword" aria-describedby="textHelp">
         </div>
         <div class="d-flex justify-content-evenly">
           <button type="submit" class="btn btn-outline-success">Log in</button>
