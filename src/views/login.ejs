@@ -4,7 +4,16 @@
 <body>
   <div class="container-login">
     <div class="form-login p-3 bg-white rounded-3">
-      <form action="login" method="post">
+      <% if (hasMessages) { %>
+      <section class="my-1">
+        <% messages.forEach(function(message) { %>
+        <span class="text-danger"><%= message %></span>
+        <% }); %>
+      </section>
+      <% } %>
+
+      
+      <form action="/sign-in" method="post">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="mb-3">
           <label for="exampleInputTextUsername" class="form-label">Email</label>

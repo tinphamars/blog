@@ -1,24 +1,27 @@
-var bCrypt = require("crypto");
+const bCrypt = require("crypto");
 
 module.exports = function (passport, user) {
-  var User = user;
-  var LocalStrategy = require("passport-local").Strategy;
+  const User = user;
+  const LocalStrategy = require("passport-local");
 
   //serialize
   passport.serializeUser(function (user, done) {
-    console.log("serializing user: ", user);
     done(null, user.id);
   });
 
   // deserialize user
   passport.deserializeUser(function (id, done) {
-    User.findByPk(id).then(function (user) {
+    User.findByPk(id).then(function (user, err) {
       if (user) {
-        done(null, user.get());
+        done(null, user);
       } else {
-        done(user.errors, null);
+        done(null, err);
       }
     });
+
+    // User.findByPk(id).then((user) => {
+    //   done(null, user);
+    // }).catch(done);
   });
 
   // LOCAL SIGNUP
@@ -69,52 +72,19 @@ module.exports = function (passport, user) {
 
   // LOCAL SIGN IN
   passport.use(
-    "local-signin",
-    new LocalStrategy(
-      {
-        // by default, local strategy uses username and password, we will override with email
-        usernameField: "email",
-        passwordField: "password",
-        passReqToCallback: true, // allows us to pass back the entire request to the callback
-      },
-
-      function (req, email, password, done) {
-        const User = user;
-				console.log("email, password", req)
-
-        const isValidPassword = function (userpass, password) {
-          return bCrypt.compareSync(password, userpass);
-        };
-
-        User.findOne({
-          where: {
-            email: email,
-          },
-        })
-          .then(function (user) {
-            if (!user) {
-              return done(null, false, {
-                message: "Email does not exist",
-              });
-            }
-
-            if (!isValidPassword(user.password, password)) {
-              return done(null, false, {
-                message: "Incorrect password.",
-              });
-            }
-
-            const userinfo = user.get();
-            return done(null, userinfo);
-          })
-          .catch(function (err) {
-            console.log("Error:", err);
-
-            return done(null, false, {
-              message: "Something went wrong with your Signin",
-            });
-          });
-      }
-    )
+    "sign-in",
+    new LocalStrategy(function verify(email, password, cb) {
+      User.findOne({ where: { email: email } }).then(function (user) {
+        if (!user) {
+          return cb(null, false, { message: "Incorrect email or password" });
+        }
+        // hash password after check
+        if (user.password === password) {
+          return cb(null, user);
+        } else {
+          return cb(null, false, { message: "Incorrect email or password" });
+        }
+      });
+    })
   );
 };
