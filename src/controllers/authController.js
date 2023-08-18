@@ -1,9 +1,12 @@
-const User = require('../models/user');
+const User = require("../models/user");
 
 exports.index = (req, res) => {
-	res.render("login");
+  if (req.isAuthenticated()) {
+    return res.redirect("/admin/dashboard");
+  }
+  res.render("login");
 };
 
 exports.submit = async (req, res) => {
-	res.render("login");
+  res.render("login");
 };

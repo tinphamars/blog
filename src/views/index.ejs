@@ -7,13 +7,6 @@
     <%- include('layout/header.ejs') %>
     <div class="main">
       <div class="container-sm" style="max-width: 890px;">
-
-        <% if (user) { %>
-          <section class="my-1">
-            <%= user.email %>
-          </section>
-        <% } %>
-
         <a href="/blogs/<%= data[0].slug %>" class="text-decoration-none text-black">
           <div class="row row-cols-1 row-cols-md-2 mb-2">
             <div class="col rounded-3">

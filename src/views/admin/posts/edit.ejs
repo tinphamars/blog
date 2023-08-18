@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../../layout/style.ejs') %>
+
+<body>
+  <div class="root">
+    <%- include('../../layout/header.ejs') %>
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <h1><%= edit ? "Edit" : "Create" %></h1>
+          <div class="my-3">
+            <form action="/admin/posts/create" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <% if (edit) { %>
+                <input type="hidden" name="id" value="<%= data && data.id %>">
+              <% } %>
+              <div class="mb-3">
+                <label class="form-label">Name: </label>
+                <input type="text" name="name" class="form-control" placeholder="" value="<%= data ? data.name : '' %>">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Slug: </label>
+                <input type="text" class="form-control" name="slug" placeholder="" value="<%= data ? data.slug : '' %>">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Body</label>
+                <textarea class="form-control" name="content" rows="7"><%= data ? data.content : '' %></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Body</label>
+                <input type="file" class="form-control" name="image"></input>
+              </div>
+              <div class="mb-3">
+                <button type="submit" class="btn btn-secondary">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('../../layout/footer.ejs') %>
+    <%- include('../../layout/javascript.ejs') %>
+</body>
+
+</html>

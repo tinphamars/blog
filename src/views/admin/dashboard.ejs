@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../layout/style.ejs') %>
+
+<body>
+  <div class="root">
+    <%- include('../layout/header.ejs') %>
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="d-flex justify-content-between align-content-center">
+            <h1>Post list</h1>
+            <a href="/admin/posts/create" class="btn btn-success">
+              New
+            </a>
+          </div>
+          <div class="mt-3">
+            <% data.forEach(element => { %>
+            <div class="my-2 d-flex justify-content-between">
+              <h6>
+                <%= element.name %>
+              </h6>
+              <div class="d-flex">
+                <a href="/admin/posts/<%= element.id %>/edit" class="mx-2 btn btn-sm btn-outline-warning">
+                  Edit
+                </a>
+                <form action="/admin/posts/delete" method="POST">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <input type="hidden" name="id" value="<%= element.id %>">
+                  <button type="submit" class="btn btn-sm btn-outline-danger">
+                    Delete
+                  </button>
+                </form>
+              </div>
+            </div>
+            <hr>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('../layout/footer.ejs') %>
+    <%- include('../layout/javascript.ejs') %>
+</body>
+
+</html>

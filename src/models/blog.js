@@ -4,22 +4,25 @@ const sequelize = require("../database");
 const Blog = sequelize.define("Blog", {
   name: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
+    validate: {
+      notEmpty: true,
+    },
   },
   categoryId: {
     type: DataTypes.BIGINT,
-    allowNull: false,
-    require: true
+    allowNull: true,
+    require: true,
   },
   content: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
-	slug: {
+  slug: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     unique: true,
-    require: true
+    require: true,
   },
 });
 

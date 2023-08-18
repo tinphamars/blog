@@ -9,9 +9,8 @@ const cookieParser = require("cookie-parser");
 const csrf = require("csurf");
 const session = require("express-session");
 const passport = require("passport");
-const connectFlash = require("connect-flash");
 const configPassport = require("./configs/passport");
-const indexRoute = require("./route");
+const indexRoute = require("./routes");
 const User = require("./models/user");
 const app = express();
 dotenv.config();
@@ -58,7 +57,7 @@ app.use(function (req, res, next) {
 });
 
 // Connect Flash
-app.use(connectFlash());
+// app.use(connectFlash());
 
 // config helmet allow for image
 app.use(
@@ -69,12 +68,6 @@ app.use(
     },
   })
 );
-
-app.get("/flash", function (req, res) {
-  // Set a flash message by passing the key, followed by the value, to req.flash().
-  req.flash("info", "Flash is back!");
-  res.redirect("/");
-});
 
 configPassport(passport, User);
 // SET router
